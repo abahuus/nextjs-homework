@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "../share/redux/authSlice";
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [values, setValues] = useState({ email: "", password: "" });
   const [warning, setWarning] = useState(false);
   const [cookies, setCookies] = useCookies(["accessToken", "userId", "email"]);
   const dispatch = useDispatch();
+  const router = useRouter(); 
 
   // user redux
   const auth = useSelector((state) => state.auth);
@@ -40,6 +42,7 @@ const Login = () => {
         setCookies("email", email, { maxAge: 60000 });
         // set redux to logged in
         dispatch(setLogin(accessToken));
+        router.push("/users");
       })
       .catch((err) => alert("Login lu salah coy"));
   };

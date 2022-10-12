@@ -39,7 +39,7 @@ const Header = () => {
           </Link>
         </li>
         {
-        isLogIn? 
+        !isLogIn? 
           <li className="nav-item">
           <Link href="/login">
             <a className="nav-link">Login</a>
