@@ -3,11 +3,13 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { setLogin, setLogout } from "../redux/authSlice";
+import { useRouter } from 'next/router';
 
 const Header = () => {
-  const [cookies] = useCookies(["accessToken", "userId"]);
+  const [cookies, setCookies, removeCookie] = useCookies(["accessToken", "userId", "email"]);
   const dispatch = useDispatch();
   const isLogIn = cookies.accessToken;
+  const router = useRouter(); 
 
   useEffect(() => {
     if (cookies.accessToken) {
@@ -17,7 +19,14 @@ const Header = () => {
 
   const handleLogout = () => {
     console.log("proses logout");
-    dispatch(setLogout());
+    const text = "Bro !! are you sure want to logout?";
+    if (window.confirm(text) === true) {
+      removeCookie(["accessToken"]);
+      removeCookie(["userId"]);
+      removeCookie(["email"]);   
+      dispatch(setLogout());
+      router.push("/login");
+    }    
   };
 
   return (
